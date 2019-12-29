@@ -215,6 +215,7 @@ void set_options(int argc, char *argv[])
 
 int build_server(void)
 {
+	// note(yan): server_socket: bind_address, local_port
 	memset(&rc.server_addr, 0, sizeof(rc.server_addr));
 
 	rc.server_addr.sin_port = htons(atoi(options.local_port));
@@ -267,6 +268,7 @@ int wait_for_clients(void)
 	unsigned int client_addr_size;
 #endif
 
+	// note(yan): client_socket: client_address如果不匹配的话需要拒绝
 	client_addr_size = sizeof(struct sockaddr_in);
 
 	rc.client_socket = accept(rc.server_socket, (struct sockaddr *) &rc.client_addr, &client_addr_size);
@@ -330,6 +332,7 @@ void handle_tunnel(void)
 
 int build_tunnel(void)
 {
+	// note(yan): remote_socket: remote_host, remote_port
 	rc.remote_host = gethostbyname(options.remote_host);
 	if (rc.remote_host == NULL)
 	{
